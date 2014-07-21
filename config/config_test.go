@@ -1,48 +1,48 @@
 package config
 
 import (
-    "fmt"
-    "testing"
-    "strings"
+	"fmt"
+	"strings"
+	"testing"
 )
 
 func init() {
-    reader := strings.NewReader(configText)
-    Load(reader)
+	reader := strings.NewReader(configText)
+	Load(reader)
 }
 
 func TestBasicString(t *testing.T) {
-    assert(t, "teststring", Get("basic_string"))
+	assert(t, "teststring", Get("basic_string"))
 }
 
 func TestOneDeepString(t *testing.T) {
-    assert(t, "one", Get("deep:one_string"))
+	assert(t, "one", Get("deep:one_string"))
 }
 
 func TestTwoDeepString(t *testing.T) {
-    assert(t, "two", Get("deep:two:two_string"))
+	assert(t, "two", Get("deep:two:two_string"))
 }
 
 func TestNotFoundBasic(t *testing.T) {
-    assert(t, "", Get("nothing"))
+	assert(t, "", Get("nothing"))
 }
 
 func TestNotFoundOneDeep(t *testing.T) {
-    assert(t, "", Get("nothing:here"))
+	assert(t, "", Get("nothing:here"))
 }
 
 func TestNotFoundTwoDeep(t *testing.T) {
-    assert(t, "", Get("deep:nothing:here"))
+	assert(t, "", Get("deep:nothing:here"))
 }
 
 func TestEmpty(t *testing.T) {
-    assert(t, "", Get(""))
+	assert(t, "", Get(""))
 }
 
 func assert(t *testing.T, expected, actual string) {
-    if expected != actual {
-        t.Errorf(fmt.Sprintf("Expected %v, got %v", expected, actual))
-    }
+	if expected != actual {
+		t.Errorf(fmt.Sprintf("Expected %v, got %v", expected, actual))
+	}
 }
 
 var configText = `
