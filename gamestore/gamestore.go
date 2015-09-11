@@ -16,7 +16,7 @@ var store = struct {
 var determiners = []event.Determiner{
 	event.LeadChangeDeterminer{Inning: 7},
 	event.BatterDeterminer{H: 4, HR: 2, RBI: 4, R: 4, SB: 3},
-	event.PitcherDeterminer{Perfect: 5, NoHitter: 5, Shutout: 8},
+	event.PitcherDeterminer{Perfect: 5, NoHitter: 5, Shutout: 8, K: 10},
 }
 
 func AddGame(game mlb.Game) {
@@ -28,7 +28,7 @@ func AddGame(game mlb.Game) {
 		events := determine(existing, game)
 		log.Printf("EVENTS for %v: ", game.GameId)
 		log.Println(events)
-		comm.Send(events)
+		comm.Send(events...)
 	}
 
 	store.Lock()

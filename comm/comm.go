@@ -70,7 +70,7 @@ var store = struct {
 	sync.Mutex
 }{m: make(map[string][]event.Event)}
 
-func Send(events []event.Event) {
+func Send(events ...event.Event) {
 	for _, e := range events {
 		dateKey := e.DateKey()
 		store.Lock()
