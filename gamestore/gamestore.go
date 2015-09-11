@@ -1,10 +1,10 @@
 package gamestore
 
 import (
-	"fmt"
 	"github.com/sirsean/mlb_notifier/comm"
 	"github.com/sirsean/mlb_notifier/event"
 	"github.com/sirsean/mlb_notifier/mlb"
+	"log"
 	"sync"
 )
 
@@ -26,8 +26,8 @@ func AddGame(game mlb.Game) {
 
 	if ok {
 		events := determine(existing, game)
-		fmt.Printf("EVENTS for %v: ", game.GameId)
-		fmt.Println(events)
+		log.Printf("EVENTS for %v: ", game.GameId)
+		log.Println(events)
 		comm.Send(events)
 	}
 

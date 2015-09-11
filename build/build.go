@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/sirsean/mlb_notifier/mlb"
 	"io"
+	"log"
 	"strconv"
 )
 
@@ -12,7 +13,7 @@ func BuildGames(reader io.Reader) ([]mlb.Game, error) {
 	dec := json.NewDecoder(reader)
 	var v map[string]interface{}
 	if err := dec.Decode(&v); err != nil {
-		fmt.Printf("JSON decode error: %v\n", err)
+		log.Printf("JSON decode error: %v\n", err)
 		return nil, err
 	}
 	data := v["data"].(map[string]interface{})

@@ -1,11 +1,11 @@
 package poll
 
 import (
-	"fmt"
 	"github.com/sirsean/mlb_notifier/comm"
 	"github.com/sirsean/mlb_notifier/fetch"
 	"github.com/sirsean/mlb_notifier/gamestore"
 	"github.com/sirsean/mlb_notifier/mlb"
+	"log"
 	"time"
 )
 
@@ -21,7 +21,7 @@ func Start() {
 		case <-cleanCommTick:
 			comm.Clean()
 		case game := <-gameChannel:
-			fmt.Println("Received: ", game)
+			log.Println("Received: ", game)
 			gamestore.AddGame(game)
 		}
 	}
@@ -35,14 +35,14 @@ func tick(gameChannel chan mlb.Game) {
 func getGamesFor(gameChannel chan mlb.Game, day time.Time) {
 	start := time.Now()
 	games, _ := fetch.FetchScoreboard(mlb.ScoreboardUrlFor(day))
-	fmt.Println(len(games))
-	fmt.Println(time.Since(start))
+	log.Println(len(games))
+	log.Println(time.Since(start))
 	for _, g := range games {
 		go func(game mlb.Game) {
 			if game.IsInProgress() {
 				boxscore, err := fetch.FetchBoxscore(mlb.BoxscoreUrlFor(game))
 				if err != nil {
-					fmt.Println(err)
+					log.Println(err)
 				}
 				if boxscore != nil {
 					game.Boxscore = *boxscore
